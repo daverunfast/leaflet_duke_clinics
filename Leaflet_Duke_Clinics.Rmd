@@ -1,0 +1,41 @@
+---
+title: "Leaflet Duke Clinics"
+author: "Dave Barrett"
+date: "May 29, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r echo=FALSE, message=FALSE,include=FALSE}
+rm(list = ls())
+library(RODBC)
+library(leaflet)
+```
+
+
+```{r  message=FALSE,echo=FALSE}
+con <- odbcConnect("DSR_PROD", uid="", pwd="")
+clinics<- sqlQuery(con,"SELECT
+F_DX_DEPARTMENT_NAME AS name
+,LATITUDE AS lat
+,LONGITUDE AS lng
+,F_DX_PATS AS pats
+FROM PORT_DEV.LBP_F_DX_LOCATIONS
+WHERE LATITUDE IS NOT NULL")
+close(con)
+
+pats <- as.numeric(clinics$PATS)
+```
+
+# Duke Clincs 
+```{r, eval=TRUE,echo=FALSE,message=FALSE}
+clinics %>% 
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers(popup = clinics$NAME) %>%
+  addCircles(weight = 1, radius = pats)
+
