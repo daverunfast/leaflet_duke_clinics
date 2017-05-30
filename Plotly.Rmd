@@ -1,0 +1,43 @@
+---
+title: "US Economics"
+author: "Dave Barrett"
+date: "May 29, 2017"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(plotly)
+```
+
+
+## Unemployment Rate (Unemployed persons/ Total population)
+```{r, echo=FALSE, message=FALSE}
+data("economics")
+plot_ly(economics, x = economics$date, y = (economics$unemploy/economics$pop),type = "scatter", mode = "line")
+```
+
+
+
+## Length of Unemployment in weeks
+```{r, echo=FALSE, message=FALSE}
+data("economics")
+plot_ly(economics, x = economics$date, y = economics$uempmed,type = "scatter", mode = "line")
+```
+
+
+
+## Personal Savings Rate as a % of income
+```{r, echo=FALSE, message=FALSE}
+data("economics")
+plot_ly(economics, x = economics$date, y = economics$psavert,type = "scatter", mode = "line")
+```
+
+
+
+
+## Personal Consuption Expenditures
+```{r, echo=FALSE, message=FALSE}
+data("economics")
+plot_ly(economics, x = economics$date, y = ((economics$pce*1000000)/economics$pop),type = "scatter", mode = "line")
+```
